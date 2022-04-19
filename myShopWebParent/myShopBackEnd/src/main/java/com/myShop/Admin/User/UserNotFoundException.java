@@ -1,0 +1,9 @@
+package com.myShop.Admin.User;
+
+public class UserNotFoundException extends Exception {
+
+	public UserNotFoundException(String message) {
+		super(message);
+	}
+
+}
