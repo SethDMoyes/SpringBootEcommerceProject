@@ -7,7 +7,7 @@
 <title>myShop Admin Control Panel</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"/>
 <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
 <script type="text/javascript" th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
@@ -88,20 +88,28 @@
 			<tbody>
 				<tr th:each="user : ${listUsers}">
 					<td>[[${user.id}]]</td>
-					<td><span class="fas fa-portrait fa-3x"></span></td>
+					<td>
+						<span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+						<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}"  style="width: 100px"/>
+					</td>
 					<td>[[${user.email}]]</td>
 					<td>[[${user.firstName}]]</td>
 					<td>[[${user.lastName}]]</td>
 					<td>[[${user.roles}]]</td>
 					<td>
-						<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green" href=""></a>
-						<a th:if="${user.enabled == false}" class="fas fa-circle-xmark fa-2x icon-red" href=""></a>
+						<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
+						th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
+						title="Diable this user"></a>
+						<a th:if="${user.enabled == false}" class="fas fa-circle-xmark fa-2x icon-red" 
+						th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
+						title="Enable this user"></a>
 					</td>
 					<td>
 						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"
 						title="Edit this user"></a>
 						&nbsp; 
-						<a class="fas fa-trash fa-2x icon-dark" href=""</a>
+						<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{'/users/delete/' + ${user.id}}"
+						title="Delete this user"></a>
 					</td>
 				</tr>
 			</tbody>
@@ -112,5 +120,11 @@
 		<p>myShop Control Panel - Copyright &copy; myShop</p>
 	</div>
 </div>
+<script> type="text.javascript"
+	$(".link-delete").on("click", function(e){
+		e.preventDefault();
+		alert($(this).attr("href"));
+}); 
+</script>
 </body>
 </html>
